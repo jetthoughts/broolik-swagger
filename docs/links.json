@@ -1,0 +1,141 @@
+{
+  "openapi" : "3.0.0",
+  "servers" : [ {
+    "description" : "SwaggerHub API Auto Mocking",
+    "url" : "https://broolik.tk/api/{version}",
+    "variables" : {
+      "version" : {
+        "enum" : [ "v1", "v2" ],
+        "default" : "v1"
+      }
+    }
+  } ],
+  "info" : {
+    "description" : "This is a simple API",
+    "version" : "v1",
+    "title" : "Broolik API",
+    "contact" : {
+      "email" : "michael@jetthoughts.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "tags" : [ {
+    "name" : "developers",
+    "description" : "Operations available to regular users"
+  } ],
+  "paths" : {
+    "/links" : {
+      "post" : {
+        "tags" : [ "developers" ],
+        "summary" : "get redirects for a link",
+        "operationId" : "addLink",
+        "description" : "Adds an item to the system and extract redirects",
+        "responses" : {
+          "200" : {
+            "description" : "link analyzed",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "422" : {
+            "description" : "invalid params"
+          },
+          "504" : {
+            "description" : "Gateway Timeout"
+          }
+        },
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LinkRequest"
+              }
+            }
+          },
+          "description" : "Link item to analyze"
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "SuccessResponse" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "enum" : [ "error", "success" ],
+            "example" : "success"
+          },
+          "url" : {
+            "type" : "string",
+            "format" : "url",
+            "example" : "http://google.com"
+          },
+          "last_url" : {
+            "type" : "string",
+            "format" : "url",
+            "example" : "https://www.google.com/?gws_rd=ssl"
+          },
+          "redirects" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            },
+            "example" : [ "http://google.com/", "http://www.google.com/", "https://www.google.com/?gws_rd=ssl" ]
+          },
+          "device" : {
+            "type" : "string",
+            "enum" : [ "desktop", "iphone", "ipad", "android" ],
+            "example" : "desktop"
+          },
+          "country" : {
+            "type" : "string",
+            "example" : "USA"
+          },
+          "response_code" : {
+            "type" : "integer",
+            "example" : 200
+          },
+          "updated_at" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-05-25T18:07:10.694Z"
+          }
+        }
+      },
+      "LinkRequest" : {
+        "type" : "object",
+        "required" : [ "link" ],
+        "properties" : {
+          "link" : {
+            "type" : "object",
+            "required" : [ "url" ],
+            "properties" : {
+              "url" : {
+                "type" : "string",
+                "format" : "url",
+                "example" : "http://google.com"
+              },
+              "device" : {
+                "type" : "string",
+                "enum" : [ "desktop", "iphone", "ipad", "android" ],
+                "example" : "iphone"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
