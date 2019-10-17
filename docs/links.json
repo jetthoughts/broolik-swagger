@@ -2,7 +2,7 @@
   "openapi" : "3.0.0",
   "servers" : [ {
     "description" : "SwaggerHub API Auto Mocking",
-    "url" : "https://broolik.tk/api/{version}",
+    "url" : "https://broolik.ml/api/{version}",
     "variables" : {
       "version" : {
         "enum" : [ "v1", "v2" ],
